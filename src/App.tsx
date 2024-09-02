@@ -5,7 +5,6 @@ import ROSLIB from "roslib";
 
 import { Box, Button, Paper, Typography, IconButton } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
-import { GiTurtle } from "react-icons/gi";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import RedoIcon from "@mui/icons-material/Redo";
@@ -187,15 +186,15 @@ function App() {
                   mb: 2,
                 }}
               >
-                <GiTurtle
-                  style={{
+                <HelpIcon
+                  sx={{
                     position: "absolute",
                     left: `${UIX}%`,
                     top: `${100 - UIY}%`,
                     transform: `translate(-50%, -50%) rotate(${UITheta}deg)`,
                     color: "white",
                   }}
-                  size={32}
+                  // size={32}
                 />
                 {/* {x}
                 {y} */}
