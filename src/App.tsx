@@ -15,7 +15,6 @@ function App() {
   const roslibConnector = useRef<ROSLIB.Ros | null>(null);
   const topicCmdVel = useRef<ROSLIB.Topic | null>(null);
   const topicPose = useRef<ROSLIB.Topic | null>(null);
-  // const [cmdVel, setCmdVel] = useState("");
   // カメの位置
   const [ROSX, setROSX] = useState(0);
   const [ROSY, setROSY] = useState(0);
@@ -111,6 +110,20 @@ function App() {
 
   const debugFunction = () => {
     console.log("Debug information:", UITheta);
+  };
+
+  const sendCommand = (linear: number, angular: number) => {
+    const twist = new ROSLIB.Message({
+      linear: { x: linear, y: 0, z: 0 },
+      angular: { x: 0, y: 0, z: angular },
+    });
+    if (topicCmdVel.current) {
+      topicCmdVel.current.publish(twist);
+    } else {
+      console.error("topicCmdVel is not initialized");
+    }
+
+    console.log("Sent command:", { linear, angular });
   };
 
   return (
@@ -225,22 +238,28 @@ function App() {
 
               {/* 操作ボタン */}
               <Box>
-                <IconButton>
+                <IconButton onClick={() => sendCommand(1, 0)}>
                   <NorthIcon />
                 </IconButton>
                 <Box>
-                  <IconButton sx={{ transform: "rotate(-90deg)" }}>
+                  <IconButton
+                    sx={{ transform: "rotate(-90deg) " }}
+                    onClick={() => sendCommand(0, -1)}
+                  >
                     <RedoIcon></RedoIcon>
                   </IconButton>
-                  <IconButton sx={{ transform: "rotate(90deg)" }}>
+                  <IconButton
+                    sx={{ transform: "rotate(-90deg) scaleY(-1)" }}
+                    onClick={() => sendCommand(0, 1)}
+                  >
                     <RedoIcon></RedoIcon>
                   </IconButton>
                 </Box>
-                <IconButton>
+                <IconButton onClick={() => sendCommand(-1, 0)}>
                   <SouthIcon></SouthIcon>
                 </IconButton>
               </Box>
-              <Button onClick={debugFunction}>test</Button>
+              {/* <Button onClick={debugFunction}>test</Button> */}
             </Box>
             {/*  */}
           </Box>
