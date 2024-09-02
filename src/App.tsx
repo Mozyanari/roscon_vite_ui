@@ -3,23 +3,14 @@ import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import ROSLIB from "roslib";
 
-import {
-  Box,
-  TextField,
-  Button,
-  Paper,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, Paper, Typography, IconButton } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
-import { Turtle } from "lucide-react";
 import { GiTurtle } from "react-icons/gi";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import RedoIcon from "@mui/icons-material/Redo";
 
 function App() {
-  const [count, setCount] = useState(0);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const roslibConnector = useRef<ROSLIB.Ros | null>(null);
   const topicCmdVel = useRef<ROSLIB.Topic | null>(null);
