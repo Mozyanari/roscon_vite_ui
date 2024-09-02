@@ -1,5 +1,3 @@
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 import { useEffect, useState, useRef } from "react";
@@ -13,16 +11,12 @@ import {
   Typography,
   IconButton,
 } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
 import HelpIcon from "@mui/icons-material/Help";
 import { Turtle } from "lucide-react";
-import { Message } from "@mui/icons-material";
 import { GiTurtle } from "react-icons/gi";
-import StraightIcon from "@mui/icons-material/Straight";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import RedoIcon from "@mui/icons-material/Redo";
-import { IconBase } from "react-icons";
 
 function App() {
   const [count, setCount] = useState(0);
