@@ -3,7 +3,7 @@ import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import ROSLIB from "roslib";
 
-import { Box, Button, Paper, Typography, IconButton } from "@mui/material";
+import { Box, Paper, Typography, IconButton } from "@mui/material";
 import HelpIcon from "@mui/icons-material/Help";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
@@ -107,9 +107,9 @@ function App() {
     }
   };
 
-  const debugFunction = () => {
-    console.log("Debug information:", UITheta);
-  };
+  // const debugFunction = () => {
+  //   console.log("Debug information:", UITheta);
+  // };
 
   const sendCommand = (linear: number, angular: number) => {
     const twist = new ROSLIB.Message({
