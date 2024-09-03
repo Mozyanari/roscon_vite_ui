@@ -8,6 +8,7 @@ import HelpIcon from "@mui/icons-material/Help";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import RedoIcon from "@mui/icons-material/Redo";
+import { GiTurtle } from "react-icons/gi";
 
 function App() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
@@ -186,15 +187,15 @@ function App() {
                   mb: 2,
                 }}
               >
-                <HelpIcon
-                  sx={{
+                <GiTurtle
+                  style={{
                     position: "absolute",
                     left: `${UIX}%`,
                     top: `${100 - UIY}%`,
                     transform: `translate(-50%, -50%) rotate(${UITheta}deg)`,
                     color: "white",
                   }}
-                  // size={32}
+                  size={32}
                 />
                 {/* {x}
                 {y} */}
