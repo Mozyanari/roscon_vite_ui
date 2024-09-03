@@ -3,7 +3,18 @@ import "./App.css";
 import { useEffect, useState, useRef } from "react";
 import ROSLIB from "roslib";
 
-import { Box, Paper, Typography, IconButton } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Typography,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+} from "@mui/material";
+import Grid from "@mui/material/Grid";
 import HelpIcon from "@mui/icons-material/Help";
 import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
@@ -25,6 +36,9 @@ function App() {
   const [UIX, setUIX] = useState(50);
   const [UIY, setUIY] = useState(50);
   const [UITheta, setUITheta] = useState(50);
+
+  // ヘルプの表示
+  const [openHowTo, setOpenHowTo] = useState(false);
 
   // const roslibConnector = useRef(
   //   new ROSLIB.Ros({
@@ -48,7 +62,6 @@ function App() {
   // );
 
   useEffect(() => {
-    console.log("tes");
     if (!roslibConnector.current) {
       roslibConnector.current = new ROSLIB.Ros({
         url: "ws://localhost:9090",
@@ -126,6 +139,25 @@ function App() {
     console.log("Sent command:", { linear, angular });
   };
 
+  const getStatusColor = () => {
+    switch (connectionStatus) {
+      case "Connected":
+        return "green";
+      case "Error":
+        return "red";
+      default:
+        return "orange";
+    }
+  };
+
+  const handleOpenHowTo = () => {
+    setOpenHowTo(true);
+  };
+
+  const handleCloseHowTo = () => {
+    setOpenHowTo(false);
+  };
+
   return (
     <>
       <Box
@@ -151,8 +183,19 @@ function App() {
           justifyContent="right"
           gap="8px"
         >
-          <Typography>How to use</Typography>
-          <HelpIcon></HelpIcon>
+          <Typography
+            sx={{
+              cursor: "pointer",
+              textDecoration: "underline", // アンダーラインを追加
+              "&:hover": {
+                color: "primary.main", // ホバー時の色を変更（オプション）
+              },
+            }}
+            onClick={handleOpenHowTo}
+          >
+            How to use
+          </Typography>
+          <HelpIcon sx={{ cursor: "pointer" }} onClick={handleOpenHowTo} />
         </Box>
 
         <Box
@@ -169,12 +212,18 @@ function App() {
         >
           {/* 接続状況 */}
           <Typography
-            sx={{ backgroundColor: "red", color: "white", borderRadius: "8px" }}
+            sx={{
+              backgroundColor: getStatusColor(),
+              color: "black",
+              borderRadius: "20px",
+              padding: "8px",
+              textAlign: "center",
+            }}
           >
             {connectionStatus}
           </Typography>
 
-          <Box display="flex" flexDirection="row">
+          <Box display="flex" flexDirection="row" sx={{ gap: "16px" }}>
             {/* カメの位置 */}
             <Box>
               <Paper
@@ -184,7 +233,7 @@ function App() {
                   height: "300px",
                   position: "relative",
                   bgcolor: "#2196f3",
-                  mb: 2,
+                  borderRadius: "16px",
                 }}
               >
                 <GiTurtle
@@ -208,8 +257,11 @@ function App() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                backgroundColor: "#D9D9D9",
+                borderRadius: "16px",
                 // gap: "16px",
-                // padding: "16px",
+                padding: "16px",
+                alignContent: "space-between",
               }}
             >
               {/* カメの数値位置 */}
@@ -218,29 +270,54 @@ function App() {
                   display: "flex",
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: "16px",
-                  padding: "16px",
+                  // gap: "16px",
+                  // padding: "16px",
+                  backgroundColor: "white",
+                  // borderRadius: "32px 32px 0 0",
+                  borderRadius: "8px",
                 }}
               >
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    // backgroundColor: "#D9D9D9",
+                    padding: "8px",
+                  }}
+                >
                   <Typography>x</Typography>
-                  {ROSX.toFixed(2)}
+                  <Typography>{ROSX.toFixed(2).padStart(5, "0")}</Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "8px",
+                  }}
+                >
                   <Typography>y</Typography>
-                  {ROSY.toFixed(2)}
+                  <Typography>{ROSY.toFixed(2).padStart(5, "0")}</Typography>
                 </Box>
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "8px",
+                  }}
+                >
                   <Typography>θ</Typography>
-                  {ROSTheta.toFixed(2)}
+                  {ROSTheta.toFixed(2).padStart(5, "0")}
                 </Box>
               </Box>
 
               {/* 操作ボタン */}
-              <Box>
-                <IconButton onClick={() => sendCommand(1, 0)}>
-                  <NorthIcon />
-                </IconButton>
+              {/* <Box>
+                <Box>
+                  <IconButton onClick={() => sendCommand(1, 0)}>
+                    <NorthIcon />
+                  </IconButton>
+                </Box>
+
                 <Box>
                   <IconButton
                     sx={{ transform: "rotate(-90deg) " }}
@@ -258,6 +335,72 @@ function App() {
                 <IconButton onClick={() => sendCommand(-1, 0)}>
                   <SouthIcon></SouthIcon>
                 </IconButton>
+              </Box> */}
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Grid
+                  container
+                  spacing={0}
+                  alignItems="center"
+                  justifyContent="center"
+                  padding="0px"
+                >
+                  <Grid item xs={12} container justifyContent="center">
+                    <IconButton
+                      size="large"
+                      onClick={() => sendCommand(1, 0)}
+                      sx={{
+                        bgcolor: "primary.main",
+                        color: "white",
+                      }}
+                    >
+                      <NorthIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={4} container justifyContent="center">
+                    <IconButton
+                      size="large"
+                      sx={{
+                        bgcolor: "primary.main",
+                        color: "white",
+                        transform: "rotate(-90deg)",
+                      }}
+                      onClick={() => sendCommand(0, -1)}
+                    >
+                      <RedoIcon />
+                    </IconButton>
+                  </Grid>
+
+                  <Grid item xs={4} container justifyContent="center">
+                    <IconButton
+                      size="large"
+                      sx={{
+                        bgcolor: "primary.main",
+                        color: "white",
+                        transform: "rotate(-90deg) scaleY(-1)",
+                      }}
+                      onClick={() => sendCommand(0, 1)}
+                    >
+                      <RedoIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item xs={12} container justifyContent="center">
+                    <IconButton
+                      size="large"
+                      onClick={() => sendCommand(-1, 0)}
+                      sx={{ bgcolor: "primary.main", color: "white" }}
+                    >
+                      <SouthIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
               </Box>
               {/* <Button onClick={debugFunction}>test</Button> */}
             </Box>
@@ -265,6 +408,14 @@ function App() {
           </Box>
         </Box>
       </Box>
+
+      <Dialog open={openHowTo} onClose={handleCloseHowTo}>
+        <DialogTitle>How to use Turtlesim Node UI</DialogTitle>
+        <DialogContent>{/* 使用方法の説明 */}</DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseHowTo}>Close</Button>
+        </DialogActions>
+      </Dialog>
       {/* <p>ROS Connection Status: {connectionStatus}</p>
       <p>cmd_vel: {x}</p>
 
