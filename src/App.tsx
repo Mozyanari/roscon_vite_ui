@@ -21,6 +21,36 @@ import SouthIcon from "@mui/icons-material/South";
 import RedoIcon from "@mui/icons-material/Redo";
 import { GiTurtle } from "react-icons/gi";
 
+import { Clipboard, Check } from "lucide-react";
+import List from "@mui/material/List";
+import ListItemText from "@mui/material/ListItemText";
+
+const CopyCodeIcon = ({ code }: { code: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
+
+  return (
+    <button
+      onClick={copyToClipboard}
+      className={`p-2 rounded-full transition-colors duration-200 ${
+        copied ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-600"
+      } hover:bg-gray-200`}
+      title={copied ? "Copied!" : "Copy code"}
+    >
+      {copied ? <Check size={20} /> : <Clipboard size={20} />}
+    </button>
+  );
+};
+
 function App() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const roslibConnector = useRef<ROSLIB.Ros | null>(null);
@@ -411,7 +441,45 @@ function App() {
 
       <Dialog open={openHowTo} onClose={handleCloseHowTo}>
         <DialogTitle>How to use Turtlesim Node UI</DialogTitle>
-        <DialogContent>{/* 使用方法の説明 */}</DialogContent>
+        <DialogContent>
+          <Box>
+            <Box>
+              <Typography variant="h6">・ROSで実行するコマンド</Typography>
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                gap="8px"
+              >
+                <Typography>ros2 run turtlesim turtlesim_node</Typography>
+                <CopyCodeIcon code="ros2 run turtlesim turtlesim_node"></CopyCodeIcon>
+              </Box>
+              <Box
+                display="flex"
+                flexDirection="row"
+                alignItems="center"
+                gap="8px"
+              >
+                <Typography>
+                  ros2 launch rosbridge_server rosbridge_websocket_launch.xml
+                </Typography>
+                <CopyCodeIcon code="ros2 launch rosbridge_server rosbridge_websocket_launch.xml"></CopyCodeIcon>
+              </Box>
+            </Box>
+            <Typography variant="h6">・UIでの操作</Typography>
+            <List>
+              <ListItemText>
+                「Connect」が表示されなければ画面を更新してください
+              </ListItemText>
+              <ListItemText>
+                画面右の矢印をクリックすると亀が移動できます
+              </ListItemText>
+              <ListItemText>
+                画面左の亀の位置はROSの亀の位置と連動しています
+              </ListItemText>
+            </List>
+          </Box>
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseHowTo}>Close</Button>
         </DialogActions>
