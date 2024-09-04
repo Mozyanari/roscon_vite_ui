@@ -70,27 +70,6 @@ function App() {
   // ヘルプの表示
   const [openHowTo, setOpenHowTo] = useState(false);
 
-  // const roslibConnector = useRef(
-  //   new ROSLIB.Ros({
-  //     url: "ws://localhost:9090",
-  //   })
-  // );
-  // const topicCmdVel = useRef(
-  //   new ROSLIB.Topic({
-  //     ros: roslibConnector.current,
-  //     name: "/turtle1/cmd_vel",
-  //     messageType: "geometry_msgs/msg/Twist",
-  //   })
-  // );
-
-  // const topicPose = useRef(
-  //   new ROSLIB.Topic({
-  //     ros: roslibConnector.current,
-  //     name: "/turtle1/pose",
-  //     messageType: "turtlesim/msg/Pose",
-  //   })
-  // );
-
   useEffect(() => {
     if (!roslibConnector.current) {
       roslibConnector.current = new ROSLIB.Ros({
@@ -339,33 +318,6 @@ function App() {
                   {ROSTheta.toFixed(2).padStart(5, "0")}
                 </Box>
               </Box>
-
-              {/* 操作ボタン */}
-              {/* <Box>
-                <Box>
-                  <IconButton onClick={() => sendCommand(1, 0)}>
-                    <NorthIcon />
-                  </IconButton>
-                </Box>
-
-                <Box>
-                  <IconButton
-                    sx={{ transform: "rotate(-90deg) " }}
-                    onClick={() => sendCommand(0, -1)}
-                  >
-                    <RedoIcon></RedoIcon>
-                  </IconButton>
-                  <IconButton
-                    sx={{ transform: "rotate(-90deg) scaleY(-1)" }}
-                    onClick={() => sendCommand(0, 1)}
-                  >
-                    <RedoIcon></RedoIcon>
-                  </IconButton>
-                </Box>
-                <IconButton onClick={() => sendCommand(-1, 0)}>
-                  <SouthIcon></SouthIcon>
-                </IconButton>
-              </Box> */}
               <Box
                 sx={{
                   width: "100%",
@@ -442,7 +394,7 @@ function App() {
       <Dialog open={openHowTo} onClose={handleCloseHowTo}>
         <DialogTitle>How to use Turtlesim Node UI</DialogTitle>
         <DialogContent>
-          <Box>
+          <Box display="flex" flexDirection="column" gap="24px">
             <Box>
               <Typography variant="h6">・ROSで実行するコマンド</Typography>
               <Box
@@ -466,80 +418,26 @@ function App() {
                 <CopyCodeIcon code="ros2 launch rosbridge_server rosbridge_websocket_launch.xml"></CopyCodeIcon>
               </Box>
             </Box>
-            <Typography variant="h6">・UIでの操作</Typography>
-            <List>
-              <ListItemText>
-                「Connect」が表示されなければ画面を更新してください
-              </ListItemText>
-              <ListItemText>
-                画面右の矢印をクリックすると亀が移動できます
-              </ListItemText>
-              <ListItemText>
-                画面左の亀の位置はROSの亀の位置と連動しています
-              </ListItemText>
-            </List>
+            <Box>
+              <Typography variant="h6">・UIでの操作</Typography>
+              <List>
+                <ListItemText>
+                  「Connect」が表示されなければ画面を更新してください
+                </ListItemText>
+                <ListItemText>
+                  画面右の矢印をクリックすると亀が移動できます
+                </ListItemText>
+                <ListItemText>
+                  画面左の亀の位置はROSの亀の位置と連動しています
+                </ListItemText>
+              </List>
+            </Box>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseHowTo}>Close</Button>
+          <Button onClick={handleCloseHowTo}>閉じる</Button>
         </DialogActions>
       </Dialog>
-      {/* <p>ROS Connection Status: {connectionStatus}</p>
-      <p>cmd_vel: {x}</p>
-
-      <Box
-        sx={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          p: 2,
-        }}
-      >
-        <Paper
-          elevation={3}
-          sx={{
-            width: "400px",
-            height: "400px",
-            position: "relative",
-            bgcolor: "#2196f3",
-            mb: 2,
-          }}
-        >
-          <Turtle
-            style={{
-              position: "absolute",
-              left: `${x}%`,
-              top: `${y}%`,
-              transform: "translate(-50%, -50%)",
-              color: "green",
-            }}
-            size={32}
-          />
-          {x}
-          {y}
-        </Paper>
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-          <TextField
-            label="X position (%)"
-            type="number"
-            value={inputX}
-            onChange={(e) => setInputX(e.target.value)}
-            sx={{ width: "120px" }}
-          />
-          <TextField
-            label="Y position (%)"
-            type="number"
-            value={inputY}
-            onChange={(e) => setInputY(e.target.value)}
-            sx={{ width: "120px" }}
-          />
-          <Button variant="contained" onClick={handleMove}>
-            Move
-          </Button>
-        </Box>
-      </Box> */}
     </>
   );
 }
