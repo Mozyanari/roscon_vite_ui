@@ -183,7 +183,9 @@ function App() {
       >
         {/* Bar */}
         <Box display="flex" flexDirection="row">
-          <Typography fontSize="40px">Turtlesim Node UI</Typography>
+          <Typography fontSize="40px" color="black">
+            Turtlesim Node UI
+          </Typography>
         </Box>
         <Box
           width="100%"
@@ -194,6 +196,7 @@ function App() {
         >
           <Typography
             sx={{
+              color: "black",
               cursor: "pointer",
               textDecoration: "underline", // アンダーラインを追加
               "&:hover": {
@@ -204,7 +207,10 @@ function App() {
           >
             How to use
           </Typography>
-          <HelpIcon sx={{ cursor: "pointer" }} onClick={handleOpenHowTo} />
+          <HelpIcon
+            sx={{ color: "black", cursor: "pointer" }}
+            onClick={handleOpenHowTo}
+          />
         </Box>
 
         <Box
@@ -294,8 +300,10 @@ function App() {
                     padding: "8px",
                   }}
                 >
-                  <Typography>x</Typography>
-                  <Typography>{ROSX.toFixed(2).padStart(5, "0")}</Typography>
+                  <Typography color="black">x</Typography>
+                  <Typography color="black">
+                    {ROSX.toFixed(2).padStart(5, "0")}
+                  </Typography>
                 </Box>
                 <Box
                   sx={{
@@ -304,8 +312,10 @@ function App() {
                     padding: "8px",
                   }}
                 >
-                  <Typography>y</Typography>
-                  <Typography>{ROSY.toFixed(2).padStart(5, "0")}</Typography>
+                  <Typography color="black">y</Typography>
+                  <Typography color="black">
+                    {ROSY.toFixed(2).padStart(5, "0")}
+                  </Typography>
                 </Box>
                 <Box
                   sx={{
@@ -314,8 +324,10 @@ function App() {
                     padding: "8px",
                   }}
                 >
-                  <Typography>θ</Typography>
-                  {ROSTheta.toFixed(2).padStart(5, "0")}
+                  <Typography color="black">θ</Typography>
+                  <Typography color="black">
+                    {ROSTheta.toFixed(2).padStart(5, "0")}
+                  </Typography>
                 </Box>
               </Box>
               <Box
