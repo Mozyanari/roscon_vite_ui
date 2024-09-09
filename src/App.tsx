@@ -448,6 +448,18 @@ function App() {
             <Box>
               <Typography variant="h6">・UIでの操作</Typography>
               <List>
+                <ListItemText
+                  primary={
+                    <span style={{ display: "flex", alignItems: "center" }}>
+                      画面の更新ボタン
+                      <RefreshIcon
+                        fontSize="small"
+                        style={{ marginLeft: "4px", marginRight: "4px" }}
+                      />
+                      を押してください
+                    </span>
+                  }
+                />
                 <ListItemText>
                   「Connect」が表示されなければ画面を更新してください
                 </ListItemText>
