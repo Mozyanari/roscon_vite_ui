@@ -20,6 +20,7 @@ import NorthIcon from "@mui/icons-material/North";
 import SouthIcon from "@mui/icons-material/South";
 import RedoIcon from "@mui/icons-material/Redo";
 import { GiTurtle } from "react-icons/gi";
+import RefreshIcon from "@mui/icons-material/Refresh";
 
 import { Clipboard, Check } from "lucide-react";
 import List from "@mui/material/List";
@@ -71,11 +72,14 @@ function App() {
   const [openHowTo, setOpenHowTo] = useState(false);
 
   useEffect(() => {
-    if (!roslibConnector.current) {
+    connectToROS();
+  }, []);
+
+  const connectToROS = () => {
+    if (!roslibConnector.current || connectionStatus != "Connected") {
       roslibConnector.current = new ROSLIB.Ros({
         url: "ws://localhost:9090",
       });
-
       roslibConnector.current.on("connection", function () {
         console.log("Connected to ROSBridge WebSocket server.");
         setConnectionStatus("Connected");
@@ -98,7 +102,7 @@ function App() {
         roslibConnector.current.close();
       }
     };
-  }, []);
+  };
 
   const initializeTopics = () => {
     if (roslibConnector.current) {
@@ -225,18 +229,29 @@ function App() {
           display="flex"
           flexDirection="column"
         >
-          {/* 接続状況 */}
-          <Typography
-            sx={{
-              backgroundColor: getStatusColor(),
-              color: "black",
-              borderRadius: "20px",
-              padding: "8px",
-              textAlign: "center",
-            }}
+          {/* 接続状況と更新ボタン */}
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyItems="center"
+            alignItems="center"
           >
-            {connectionStatus}
-          </Typography>
+            <Typography
+              sx={{
+                backgroundColor: getStatusColor(),
+                color: "black",
+                borderRadius: "20px",
+                padding: "8px",
+                textAlign: "center",
+                width: "100%",
+              }}
+            >
+              {connectionStatus}
+            </Typography>
+            <IconButton onClick={connectToROS}>
+              <RefreshIcon></RefreshIcon>
+            </IconButton>
+          </Box>
 
           <Box display="flex" flexDirection="row" sx={{ gap: "16px" }}>
             {/* カメの位置 */}
